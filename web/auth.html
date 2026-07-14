@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J Bank Access</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-body">
+    <section class="auth-banner">
+        <div class="auth-banner__content">
+            <p class="eyebrow">J Bank</p>
+            <h1>Welcome to J Bank</h1>
+        </div>
+        <div class="auth-banner__logo" aria-hidden="true">
+            <div class="bank-logo">
+                <div class="bank-logo__icon">
+                    <span class="bank-logo__roof"></span>
+                    <span class="bank-logo__beam"></span>
+                    <span class="bank-logo__columns">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </span>
+                    <span class="bank-logo__base"></span>
+                    <span class="bank-logo__leaf bank-logo__leaf--left"></span>
+                    <span class="bank-logo__leaf bank-logo__leaf--right"></span>
+                </div>
+                <strong>J BANK</strong>
+                <span>JAVA BANK ALWAYS WITH YOU</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="auth-minimal">
+        <form id="register-form" class="auth-card auth-card--minimal">
+            <div class="auth-card__head">
+                <div>
+                    <p class="eyebrow">New Client</p>
+                    <h2>Create account</h2>
+                </div>
+                <span class="tag tag--teal">New</span>
+            </div>
+            <p class="auth-card__text">Set up your account details to start using J Bank online.</p>
+            <label class="field">
+                <span>Full name</span>
+                <input type="text" name="username" placeholder="Enter your name" required>
+            </label>
+            <label class="field">
+                <span>Password</span>
+                <input type="password" name="password" placeholder="Create a password" required>
+            </label>
+            <button class="button-primary auth-submit" type="submit">Create account</button>
+        </form>
+
+        <form id="login-form" class="auth-card auth-card--minimal">
+            <div class="auth-card__head">
+                <div>
+                    <p class="eyebrow">Returning Client</p>
+                    <h2>Sign in</h2>
+                </div>
+                <span class="tag tag--gold">Secure</span>
+            </div>
+            <p class="auth-card__text">Use your existing account details to reach the dashboard.</p>
+            <label class="field">
+                <span>Full name</span>
+                <input type="text" name="username" placeholder="Enter your name" required>
+            </label>
+            <label class="field">
+                <span>Password</span>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </label>
+            <button class="button-primary auth-submit" type="submit">Continue to dashboard</button>
+        </form>
+    </main>
+
+    <div class="auth-status-wrap">
+        <div id="auth-status" class="status-box status-box--neutral">Choose create account or sign in.</div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J Bank Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-page">
+        <header class="topbar topbar--dark">
+            <a class="brand" href="dashboard.html">
+                <span class="brand__mark">J</span>
+                <span>J Bank</span>
+            </a>
+            <nav class="topbar__nav topbar__nav--dark" aria-label="Dashboard">
+                <a href="#overview">Overview</a>
+                <a href="#payments">Payments</a>
+                <a href="#activity">History</a>
+            </nav>
+            <div class="topbar__actions">
+                <button id="refresh-button" class="button-secondary button-secondary--dark" type="button">Refresh</button>
+                <button id="logout-button" class="button-inline button-inline--dark" type="button">Sign out</button>
+            </div>
+        </header>
+
+        <main class="dashboard-layout">
+            <section class="dashboard-hero panel-surface panel-surface--hero" id="overview">
+                <div class="dashboard-hero__copy">
+                    <p class="eyebrow">J Bank Workspace</p>
+                    <h1 id="welcome">Welcome back.</h1>
+                    <p class="dashboard-hero__lead">A cleaner banking command center for deposits, withdrawals, transfers, and account activity without leaving the main screen.</p>
+
+                    <div class="dashboard-hero__status-row">
+                        <div id="dashboard-status" class="status-box status-box--neutral">Loading account...</div>
+                        <div class="session-chip">
+                            <span>Session</span>
+                            <strong>Protected</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-balance-card">
+                    <span class="hero-balance-card__label">Available balance</span>
+                    <strong id="balance">$0.00</strong>
+                    <p id="balance-note">Waiting for account data.</p>
+                    <div class="hero-balance-card__meta">
+                        <div>
+                            <span>Account holder</span>
+                            <strong id="active-user">None</strong>
+                        </div>
+                        <div>
+                            <span>Total activity</span>
+                            <strong id="history-count">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard-summary">
+                <article class="summary-tile panel-surface panel-surface--dark">
+                    <span>Primary account</span>
+                    <strong id="sidebar-user">No active user</strong>
+                    <p id="user-note">No active sign-in.</p>
+                </article>
+                <article class="summary-tile panel-surface panel-surface--dark">
+                    <span>Balance snapshot</span>
+                    <strong id="sidebar-balance">Balance will appear here.</strong>
+                    <p>Use refresh anytime to reload the latest account data.</p>
+                </article>
+                <article class="summary-tile panel-surface panel-surface--dark">
+                    <span>Recent activity</span>
+                    <strong id="recent-type">Waiting</strong>
+                    <p id="last-action">No activity yet</p>
+                </article>
+            </section>
+
+            <section class="payments-grid" id="payments">
+                <form id="deposit-form" class="payment-card payment-card--deposit panel-surface panel-surface--dark">
+                    <div class="payment-card__top">
+                        <div class="payment-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" role="img">
+                                <path d="M32 12v26" />
+                                <path d="M22 22l10-10 10 10" />
+                                <path d="M16 42h32" />
+                                <rect x="14" y="42" width="36" height="10" rx="5" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>Deposit</h2>
+                            <p>Add money into your account balance.</p>
+                        </div>
+                    </div>
+                    <label class="field field--light">
+                        <span>Amount</span>
+                        <input type="number" name="amount" min="0.01" step="0.01" placeholder="100.00" required>
+                    </label>
+                    <button class="action-button action-button--deposit" type="submit">Deposit Funds</button>
+                </form>
+
+                <form id="withdraw-form" class="payment-card payment-card--withdraw panel-surface panel-surface--dark">
+                    <div class="payment-card__top">
+                        <div class="payment-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" role="img">
+                                <path d="M32 14v26" />
+                                <path d="M22 30l10 10 10-10" />
+                                <path d="M16 46h32" />
+                                <rect x="14" y="12" width="36" height="10" rx="5" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>Withdraw</h2>
+                            <p>Move money out of your account.</p>
+                        </div>
+                    </div>
+                    <label class="field field--light">
+                        <span>Amount</span>
+                        <input type="number" name="amount" min="0.01" step="0.01" placeholder="50.00" required>
+                    </label>
+                    <button class="action-button action-button--withdraw" type="submit">Withdraw Funds</button>
+                </form>
+
+                <form id="transfer-form" class="payment-card payment-card--transfer panel-surface panel-surface--dark">
+                    <div class="payment-card__top">
+                        <div class="payment-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" role="img">
+                                <path d="M14 22h26" />
+                                <path d="M30 12l10 10-10 10" />
+                                <path d="M50 42H24" />
+                                <path d="M34 32 24 42l10 10" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>Transfer</h2>
+                            <p>Send money to another J Bank user.</p>
+                        </div>
+                    </div>
+                    <label class="field field--light">
+                        <span>Recipient</span>
+                        <input type="text" name="recipient" placeholder="Sam" required>
+                    </label>
+                    <label class="field field--light">
+                        <span>Amount</span>
+                        <input type="number" name="amount" min="0.01" step="0.01" placeholder="25.00" required>
+                    </label>
+                    <button class="action-button action-button--transfer" type="submit">Transfer Money</button>
+                </form>
+
+                <article class="payment-card payment-card--history panel-surface panel-surface--dark">
+                    <div class="payment-card__top">
+                        <div class="payment-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" role="img">
+                                <rect x="18" y="14" width="28" height="36" rx="6" />
+                                <path d="M24 24h16" />
+                                <path d="M24 32h16" />
+                                <path d="M24 40h10" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>History</h2>
+                            <p>Open the activity feed for recent records.</p>
+                        </div>
+                    </div>
+                    <div class="history-preview">
+                        <span>Activity count</span>
+                        <strong id="history-note">No transactions yet.</strong>
+                    </div>
+                    <button id="open-history-button" class="action-button action-button--history" type="button">View History</button>
+                </article>
+            </section>
+
+            <section class="activity-stage panel-surface panel-surface--dark is-hidden" id="activity" aria-hidden="true">
+                <div class="activity-stage__head">
+                    <div>
+                        <p class="eyebrow">Account Timeline</p>
+                        <h2>Recent activity</h2>
+                    </div>
+                </div>
+                <div id="history-list" class="timeline">
+                    <div class="activity-empty">No transactions yet.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

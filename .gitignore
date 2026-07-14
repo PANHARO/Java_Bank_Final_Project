@@ -1,0 +1,10 @@
+*.class
+bin/
+
+# Runtime data files
+data/Users.txt
+data/Accounts.txt
+data/Transaction.txt
+
+# VS Code local settings
+.vscode/
