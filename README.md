@@ -1,127 +1,94 @@
 # J Bank
 
-A simple Java banking project with:
+A Java banking coursework project with console and browser interfaces, file-based accounts, deposits, withdrawals, and transaction history.
 
-- A console app in `src/Main.java`
-- A web server in `src/WebServer.java`
-- Static frontend files in `web/`
-- Plain text storage managed by `src/BankDataStore.java`
+Both interfaces share the banking logic in `BankDataStore.java`. The web version uses Java's built-in HTTP server and a static HTML/CSS/JavaScript frontend; no Maven, Gradle, or external Java libraries are required.
 
-## Project Structure
+## Requirements and clone
 
-- `src/`: Java source files
-- `src/Main.java`: console version of the app
-- `src/WebServer.java`: HTTP server and API routes
-- `src/BankDataStore.java`: file-based storage logic
-- `src/Account.java`: account model
-- `web/`: frontend HTML, CSS, and JavaScript
-- `data/`: runtime text files created and used by the app
-- `bin/`: compiled Java output
+Install Git and a **JDK 11 or newer**, with both `java` and `javac` available in your terminal.
 
-## Run The Web App
-
-Compile:
-
-```powershell
-javac -d bin src\*.java
+```sh
+git clone https://github.com/PANHARO/Java_Bank_Final_Project.git
+cd Java_Bank_Final_Project
+java -version
+javac -version
 ```
 
-Start the server:
+## Compile and start the web app
+
+Run from the repository root. Create `data` before starting: the storage code creates files inside it but does not create the directory itself.
+
+Windows PowerShell:
 
 ```powershell
+New-Item -ItemType Directory -Force data, bin
+javac -d bin src\*.java
 java -cp bin WebServer
 ```
 
-Then open `http://localhost:8080`.
+macOS / Linux:
 
-## Run The Console App
-
-Compile:
-
-```powershell
-javac -d bin src\*.java
+```sh
+mkdir -p data bin
+javac -d bin src/*.java
+java -cp bin WebServer
 ```
 
-Start:
+Open `http://localhost:8080`. Register a demo account, log in, and use the dashboard to try deposits, withdrawals, and transaction history. Stop the server with Ctrl+C. If port 8080 is occupied, choose another port:
 
-```powershell
+```sh
+java -cp bin WebServer 8081
+```
+
+Then visit `http://localhost:8081`.
+
+## Run the console app
+
+After compiling with either command set above:
+
+```sh
 java -cp bin Main
 ```
 
-## Notes
+Follow the terminal prompts to register or log in and select an account action. Keep the working directory at the repository root so `data/` and `web/` resolve correctly. Both interfaces use the same stored accounts; stop one before experimenting with the other.
 
-- This project uses text files instead of a database.
-- Do not publish real user data or passwords from the files inside `data/`.
-- Compiled `.class` files in `bin/` are generated output and should not be committed.
-- The duplicate root frontend files were removed so `web/` is the single frontend source.
+## How the files fit together
 
-## Detailed Overview
+| Path | Purpose |
+| --- | --- |
+| `src/Account.java` | In-memory account model and balance operations |
+| `src/BankDataStore.java` | Registration, login, balances, transactions, and text-file storage |
+| `src/Main.java` | Console menus and input handling |
+| `src/WebServer.java` | Local HTTP server, frontend serving, and API routes |
+| `web/index.html` | Redirect to the authentication page |
+| `web/auth.html`, `web/auth.js` | Browser registration and login |
+| `web/dashboard.html`, `web/dashboard.js` | Account dashboard and actions |
+| `web/styles.css` | Frontend styling and animations |
+| `data/` | Runtime storage, created locally |
+| `bin/` | Generated compiled classes |
 
-### How the bank system works
+The server exposes `/api/register`, `/api/login`, `/api/account`, `/api/deposit`, `/api/withdraw`, `/api/transfer`, and `/api/history`.
 
-The project has one banking engine with two interfaces:
-
-- `src/Main.java` provides the console interface.
-- `src/WebServer.java` provides the local web server and API.
-- `src/BankDataStore.java` contains the shared banking and file-storage logic.
-- `src/Account.java` represents an account in memory.
-
-Both interfaces use the same files in `data/`:
-
-1. A user registers, and the system saves the username and password in `Users.txt`.
-2. The starting balance is saved in `Accounts.txt`.
-3. On login, the system checks the credentials and loads the account balance.
-4. Deposits, withdrawals, and transfers update the balance and add a record to `Transaction.txt`.
-5. The console or browser displays the updated account and transaction history.
-
-### Main Java files
-
-`Account.java` is the in-memory account model. It stores the username, password, and balance, and provides deposit and withdrawal operations. It does not read or write files.
-
-`BankDataStore.java` is the core of the application. It creates the data files, creates accounts, authenticates users, loads and updates balances, records transactions, and returns transaction history. Most of its methods are synchronized so both web and console requests can use the storage safely.
-
-`Main.java` handles console input, menus, validation, login, and account actions. It calls `BankDataStore` instead of managing files directly.
-
-`WebServer.java` starts an HTTP server on port `8080`, serves files from `web/`, and connects browser requests to the banking logic through these routes:
-
-```text
-/api/register   /api/login     /api/account
-/api/deposit    /api/withdraw  /api/transfer
-/api/history
-```
-
-### Frontend files
-
-- `web/index.html`: redirects visitors to the authentication page.
-- `web/auth.html` and `web/auth.js`: provide registration and login.
-- `web/dashboard.html` and `web/dashboard.js`: display the account and handle banking actions.
-- `web/styles.css`: contains the page layout, colors, responsive design, and animations.
-
-The browser stores the current username in `sessionStorage`. This is only a simple local demo session, not secure authentication.
-
-### Data files
+The shared storage files use these formats:
 
 - `data/Users.txt`: `username,password`
 - `data/Accounts.txt`: `username,balance`
 - `data/Transaction.txt`: `dateTime,username,type,target,amount,balanceAfter`
 
-These text files act as the application's database. Do not use real passwords or personal data in them.
+## Current limitations
 
-### Current limitations
+This is a learning demo. Use fictional accounts and demo passwords.
 
-- Passwords are stored in plain text.
-- There is no real authentication or server-side session management.
-- `transfer()` deducts money from the sender but currently does not credit the recipient.
-- The project uses text files instead of a database.
-- The Java backend must run locally; GitHub Pages can host only the frontend.
+- Passwords are stored as plain text, and there is no secure server-side authentication or session management. The browser stores the current username in `sessionStorage`.
+- **Transfers are incomplete:** the current implementation deducts the sender's balance and records the target, but does not credit a recipient account.
+- Text files are used instead of a database.
+- GitHub Pages can serve static frontend files but cannot run this Java backend. Start `WebServer` to use the full app locally.
 
-### Quick file summary
+Keep real personal data and credentials out of `data/` and out of commits. Generated `.class` files in `bin/` should not be committed.
 
-```text
-Account.java       account model
-BankDataStore.java banking logic and file storage
-Main.java          console interface
-WebServer.java     web server and API
-web/               frontend pages, scripts, and styles
-data/              saved users, accounts, and transactions
-```
+## Troubleshooting and changes
+
+If `javac` is missing, install a JDK rather than only a JRE and check your PATH. If saving fails, check that `data/` exists and is writable. Recompile after changing Java sources; refresh the browser after frontend edits.
+
+To contribute, fork if needed, create a branch with `git switch -c your-change`, and describe the behavior changed and how you checked it. Keep the shared storage behavior consistent between the console and web interfaces.
